@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hiflain - Engineering The Decisive Edge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary-bg: #91a899;
+            --color-secondary-bg: #66806f;
+            --color-accent-primary: #294040;
+            --color-accent-secondary: #507373;
+            --color-text-primary: #ffffff;
+            --color-text-headings: #E1E8EB;
+            --color-border-subtle: #538078;
+
+            --font-body: 'Space Grotesk', sans-serif;
+            --font-headings: 'Space Grotesk', 'Space Grotesk', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-primary-bg);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-headings);
+            color: var(--color-text-headings);
+            margin-bottom: 0.6em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            margin-bottom: 1.5em;
+            font-size: 0.95rem; /* Slightly smaller for a more "dense interface" feel */
+        }
+
+        a {
+            color: var(--color-accent-primary);
+            text-decoration: none;
+            transition: color 0.2s ease-in-out;
+        }
+        a:hover {
+            color: var(--color-accent-secondary);
+        }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        /* --- Minimal Navigation --- */
+        .main-header {
+            position: fixed;
+            top: 10px;
+            left: 0.5%;
+            width: 99%;
+            padding: 5px 0;
+            z-index: 1000;
+            background-color: transparent;
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .main-header.scrolled {
+            background-color: rgba(220, 220, 220, 0.75); /* var(--color-secondary-bg) with opacity */
+            backdrop-filter: blur(2px);
+            box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-headings);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-headings);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        
+        .logo.scrolled {
+            color: var(--color-accent-primary);
+        }
+
+        .main-nav ul { list-style: none; display: flex; }
+        .main-nav li { margin-left: 30px; }
+        .main-nav a {
+            font-family: var(--font-headings);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-text-primary);
+        }
+        .main-nav a:hover, .main-nav a.active {
+            color: var(--color-accent-primary);
+        }
+
+
+        /* --- Hero Section --- */
+        #hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            text-align: left;
+            background-color: var(--color-primary-bg);
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(var(--color-border-subtle) 1px, transparent 1px),
+                linear-gradient(to right, var(--color-border-subtle) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.3;
+            z-index: 0;
+        }
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+            padding-top: 60px;
+        }
+
+        #hero h1 {
+            font-size: 3.2rem;
+            line-height: 1.15;
+            margin-bottom: 0.5em;
+            text-transform: none;
+        }
+
+        #hero .sub-headline {
+            font-size: 1.1rem;
+            color: var(--color-text-primary);
+            margin-bottom: 1.8em;
+            max-width: 550px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--color-accent-secondary);
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 30px;
+            font-family: var(--font-headings);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #608080;
+            color: #FFFFFF;
+            transform: translateY(-1px) translateX(-0.5px);
+        }
+
+        /* --- Vision Section --- */
+        #vision {
+            background-color: var(--color-secondary-bg);
+        }
+
+        #vision h2 {
+            font-size: 2.5rem;
+            text-align: left;
+            margin-bottom: 1em;
+        }
+
+        .vision-grid { 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .vision-grid .text-block p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .vision-content {
+            max-width: 800px;
+        }
+
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .main-nav {
+                position: fixed; top: 0; right: -280px; width: 280px; height: 100vh;
+                background-color: var(--color-secondary-bg);
+                flex-direction: column; padding-top: 70px;
+                transition: right 0.3s ease-in-out; box-shadow: -3px 0 10px rgba(0,0,0,0.15);
+                z-index: 999;
+            }
+            .main-nav.open { right: 0; }
+            .main-nav ul { flex-direction: column; align-items: flex-start; width: 100%;}
+            .main-nav li { margin: 10px 0; width: 100%; padding: 5px 20px;}
+            .main-nav a { display: block; padding: 8px 0;}
+
+            .menu-toggle {
+                display: block; font-size: 1.6rem; color: var(--color-accent-primary);
+                cursor: pointer; z-index: 1001;
+            }
+
+            #hero { text-align: center; padding-top: 100px; min-height: 80vh;}
+            #hero .hero-content { margin: 0 auto; }
+            #hero h1 { font-size: 2.6rem; }
+            #hero .sub-headline { font-size: 1rem; max-width: 90%; }
+            #vision h2 { font-size: 2rem; text-align: center; }
+            .vision-content { padding: 0 15px; }
+            section { padding: 60px 0; }
+        }
+        @media (min-width: 769px) {
+            .menu-toggle { display: none; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header" id="mainHeader">
+        <div class="container">
+            <div class="logo" id="logo">HIFLAIN</div>
+            <div class="menu-toggle" id="menuToggle">&#9776;</div>
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="#hero" class="active">Overview</a></li>
+                    <li><a href="#vision">Mission</a></li>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Engineering The Decisive Edge</h1>
+                <p class="sub-headline"><b>Hiflain</b> develops next-generation autonomous technologies for critical national security, defense and logistics applications, ensuring information advantage and operational superiority.</p>
+                <a href="#vision" class="cta-button">Explore Our Focus</a>
+                </div>
+        </div>
+    </section>
+
+    <section id="vision">
+        <div class="container">
+            <h2>The Imperative for Resilient Autonomy</h2>
+            <div class="vision-content">
+                <p>The global security landscape is characterized by unprecedented data proliferation and operational complexity. Prevailing in this environment demands a new echelon of strategic capability: One centered on intelligent systems that master information, optimize complex logistical chains, and deliver unparalleled foresight for contingency planning. Hiflain is dedicated to architecting these pivotal solutions.</p>
+                <p>Our core mission is to engineer foundational AI and advanced analytical engines that provide decision-makers and planners with a decisive informational edge. We focus on transforming vast, disparate datasets into actionable intelligence, solving intractable optimization problems, and empowering robust contingency strategies, particularly in contested or resource-constrained scenarios.</p>
+                <p>We are building a future where AI-augmented decision frameworks provide superior operational awareness, enhance logistical resilience, and ensure proactive strategic posturing with unmatched clarity and efficiency. This vision requires a profound grasp of informational dynamics, a commitment to ethical data stewardship, and an unwavering pursuit of analytical supremacy.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 25px 0; background-color: var(--color-bg); border-top: 1px solid var(--color-border-subtle);">
+        <p style="margin-bottom: 5px; font-size: 0.8rem; color: var(--color-text-primary); text-transform: uppercase; letter-spacing: 0.5px;">
+            &copy; <span id="currentYear"></span> HIFLAIN. ALL RIGHTS RESERVED.
+        </p>
+        <p style="font-size: 0.75rem; color: var(--color-text-primary); opacity: 0.7;">
+            <a href="mailto:info@hiflain.com" style="margin:0 8px; text-transform:uppercase; font-size: inherit;">info@hiflain.com</a>
+        </p>
+    </footer>
+
+    <script>
+        const header = document.getElementById('mainHeader');
+        const logo = document.getElementById('logo');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 30) {
+                header.classList.add('scrolled');
+                logo.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+                logo.classList.remove('scrolled');
+            }
+        });
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+        if (menuToggle && mainNav) {
+            menuToggle.addEventListener('click', function() {
+                mainNav.classList.toggle('open');
+                menuToggle.innerHTML = mainNav.classList.contains('open') ? '&times;' : '&#9776;';
+            });
+        }
+
+        document.querySelectorAll('.main-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    if (mainNav.classList.contains('open')) {
+                        mainNav.classList.remove('open');
+                        menuToggle.innerHTML = '&#9776;';
+                    }
+                }
+            });
+        });
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.main-nav a');
+        window.addEventListener('scroll', () => {
+            let currentSectionId = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - (section.clientHeight / 3) ) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === currentSectionId) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
